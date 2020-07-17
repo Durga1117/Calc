@@ -73,6 +73,7 @@ function handleMath(value){
     previousOperator = value;
     buffer = '0';
     storedValue += value;
+    console.log(here);
 }
 
 function flushOperation(intBuffer){
