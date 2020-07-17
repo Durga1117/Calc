@@ -1,6 +1,7 @@
 let runningTotal=0;
 let buffer ="0";
 let previousOperator;
+let storedValue=buffer;
 const screen = document.querySelector(".screen");
 
 document.querySelector(".calc-buttons").addEventListener("click", function(event){
@@ -25,12 +26,14 @@ function handleNumber(value){
         else{
             buffer += value;
         }
+        storedValue=buffer;
 }
 
 function handleSymbol(value){
         switch(value){
             case "C" :
                 buffer = "0";
+                storedValue=buffer;
                 runningTotal=0;
                 previousOperator=null;
                 break;
@@ -41,14 +44,17 @@ function handleSymbol(value){
                 flushOperation(parseInt(buffer));
                 previousOperator=null;
                 buffer = " " + runningTotal;
+                storedValue=buffer;
                 runningTotal = 0;
                 break;
             case "←" :
                 if(buffer.length === 1){
                     buffer= "0";
+                    storedValue=buffer;
                 }
                 else{
                     buffer=buffer.substring(0,buffer.length-1);
+                    storedValue=buffer;
                 }
                 break;
             default: handleMath(value);
@@ -66,6 +72,7 @@ function handleMath(value){
     }
     previousOperator = value;
     buffer = '0';
+    storedValue += value;
 }
 
 function flushOperation(intBuffer){
@@ -84,5 +91,5 @@ function flushOperation(intBuffer){
     }
 }
 function rerender(){
-    screen.innerText= buffer;
+    screen.innerText= storedValue;
 }
